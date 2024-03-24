@@ -3,20 +3,44 @@
 This is the course project platform for NYU ROB-GY 6203 Robot Perception. 
 For more information, please reach out to AI4CE lab (cfeng at nyu dot edu).
 
-# Instructions for Players
-1. Install
+# Installing Dependencies
+All commandline operations are start from the project root directory.
+1. Game Dependencies
 ```commandline
 conda update conda
-git clone https://github.com/ai4ce/vis_nav_player.git
+git clone --recursive https://github.com/llama887/vis_nav_player.git
 cd vis_nav_player
 conda env create -f environment.yaml
 conda activate game
 ```
-
-2. Play using the default keyboard player
+2. Pangolin
 ```commandline
-python player.py
+# Pangolin Installation/Building
+cd Pangolin
+
+# Install dependencies (as described above, or your preferred method)
+./scripts/install_prerequisites.sh recommended
+
+# Configure and build
+cmake -B build
+cmake --build build
+
+# with Ninja for faster builds (sudo apt install ninja-build)
+cmake -B build -GNinja
+cmake --build build
+
+# GIVEME THE PYTHON STUFF!!!! (Check the output to verify selected python version)
+cmake --build build -t pypangolin_pip_install
+```
+3. ORB-SLAM3 Python Bindings
+```commandline
+sudo apt-get install libssl-dev
+cd ORB-SLAM3-python
+pip install . .
 ```
 
-3. Modify the player.py to implement your own solutions, 
-unless you have photographic memories!
+# Playing
+Play using the default keyboard player
+```commandline
+python sllama_slam.py
+```
