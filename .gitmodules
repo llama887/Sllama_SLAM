@@ -1,6 +1,3 @@
-[submodule "Pangolin"]
-	path = Pangolin
-	url = https://github.com/stevenlovegrove/Pangolin.git
-[submodule "ORB-SLAM3-python"]
-	path = ORB-SLAM3-python
-	url = https://github.com/llama887/ORB-SLAM3-python.git
+[submodule "/external/stella_vslam"]
+	path = stella_vslam
+	url = https://github.com/stella-cv/stella_vslam.git
