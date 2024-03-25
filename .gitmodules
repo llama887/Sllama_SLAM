@@ -1,3 +1,0 @@
-[submodule "/external/stella_vslam"]
-	path = stella_vslam
-	url = https://github.com/stella-cv/stella_vslam.git
