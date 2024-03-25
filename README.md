@@ -1,16 +1,16 @@
-# Visual Navigation Game (Example Player Code)
+# Visual Navigation Game
 
-This is the course project platform for NYU ROB-GY 6203 Robot Perception. 
+This is the course project for NYU ROB-GY 6203 Robot Perception. 
 For more information, please reach out to AI4CE lab (cfeng at nyu dot edu).
 
-# Installing Dependencies
-All commandline operations are start from the project root directory.
+# Installing Dependencies (Ubuntu)
+All command line operations start from the project root directory.
 1. Game Dependencies
 ```commandline
 conda update conda
 git clone --recursive https://github.com/llama887/vis_nav_player.git
 cd vis_nav_player
-conda env create -f environment.yaml
+conda env create -f environment.yml
 conda activate game
 ```
 2. Pangolin
