@@ -34,9 +34,12 @@ cmake --build build -t pypangolin_pip_install
 ```
 3. ORB-SLAM3 Python Bindings
 ```commandline
+sudo apt install libopencv-dev
 sudo apt-get install libssl-dev
+sudo apt install libopencv-dev
+dpkg -l libopencv-dev
 cd ORB-SLAM3-python
-pip install . .
+python setup.py install
 ```
 
 # Playing
