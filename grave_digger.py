@@ -4,7 +4,7 @@ import cv2
 import pdb
 
 from deadreckoning import Localizer
-from image_storage import Storage_Bot
+#from image_storage import Storage_Bot
 from place_recognition import (
     create_visual_dictionary,
     extract_sift_features,
@@ -20,7 +20,7 @@ class KeyboardPlayerPyGame(Player):
         self.keymap = None  # Mapping of keyboard keys to actions
         self.localizer = Localizer()  # Dead reckoning localizer
         super(KeyboardPlayerPyGame, self).__init__()
-        self.storage = Storage_Bot()
+        #self.storage = Storage_Bot()
 
         self.key_hold_state = {
             pygame.K_LEFT: False,
@@ -52,7 +52,6 @@ class KeyboardPlayerPyGame(Player):
             pygame.K_t: 1,
             pygame.K_LSHIFT: 1,
         }
-        breakpoint()
         
     def act(self):
         """
@@ -180,8 +179,8 @@ class KeyboardPlayerPyGame(Player):
             return pygame_image
 
         pygame.display.set_caption("KeyboardPlayer:fpv")
-        if not self.is_navigation:
-            self.storage.disk((self.localizer.current_x, self.localizer.current_y, self.localizer.heading), fpv)
+        # if not self.is_navigation:
+        #     self.storage.disk((self.localizer.current_x, self.localizer.current_y, self.localizer.heading), fpv)
         rgb = convert_opencv_img_to_pygame(fpv)
         self.screen.blit(rgb, (0, 0))
         pygame.display.update()
