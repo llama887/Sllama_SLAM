@@ -79,7 +79,7 @@ class KeyboardPlayerPyGame(Player):
                         self.last_act |= self.keymap[event.key]
                         if self.keymap[event.key] in [Action.LEFT, Action.RIGHT, Action.FORWARD, Action.BACKWARD]:
                             if not self.key_hold_state[pygame.K_LSHIFT]:
-                                self.localizer.track(self.keymap[event.key], self.is_navigation)
+                                self.localizer.track(self.keymap[event.key])
                                 pygame.event.set_blocked(pygame.KEYDOWN)
                                 pygame.event.set_blocked(pygame.KEYUP)
                 else:
@@ -101,6 +101,7 @@ class KeyboardPlayerPyGame(Player):
         # show the explored area and the current position
         self.localizer.map.update_minimap(self.localizer.current_x, self.localizer.current_y) 
         return self.last_act
+    
     def post_exploration(self) -> None:
         #TODO: place reconigition
         self.is_navigation = True
