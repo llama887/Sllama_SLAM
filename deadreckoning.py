@@ -1,5 +1,6 @@
 from vis_nav_game import Player, Action, Phase
 import matplotlib.pyplot as plt
+plt.ion()
 import pygame
 
 class Map():
@@ -13,6 +14,7 @@ class Map():
         if self.delay_counter < self.MAP_DELAY:
             self.delay_counter += 1
             return
+        plt.clf()
         self.delay_counter = 0
         plt.scatter(self.x, self.y, color='black')
         plt.scatter(current_x, current_y, color='blue')
@@ -20,7 +22,8 @@ class Map():
             plt.scatter(self.target[0], self.target[1], color='green')
         plt.axis('off')
         print(f"Current position: ({current_x}, {current_y})")  
-        plt.show(block=False)
+        plt.draw()
+        plt.pause(0.01)
 
 class Localizer():
     def __init__(self):
