@@ -21,7 +21,7 @@ class Map():
         if self.target[0] is not None and self.target[1] is not None:
             plt.scatter(self.target[0], self.target[1], color='green')
         plt.axis('off')
-        print(f"Current position: ({current_x}, {current_y})")  
+        # print(f"Current position: ({current_x}, {current_y})")  
         plt.draw()
         plt.pause(0.01)
 

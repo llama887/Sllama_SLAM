@@ -5,13 +5,21 @@ from typing import Any, List
 import cv2
 import faiss
 import numpy as np
-import random 
+import random
 
+class Image_Embedding():
+    count = 0
+    def __init__(self, x, y, image):
+        self.x = x
+        self.y = y
+        self.image = image
+        self.count = Image_Embedding.count
+        Image_Embedding.count += 1
 
-
-class Vocbulary_Generator():
+class Vocabulary_Generator():
     def __init__(self):
         self.images = []
+        self.embeddings : List[Image_Embedding]= []
     def generate_vocabulary(self):
         if len(self.images) != 0:
             if self.self_validate:
@@ -33,34 +41,10 @@ class Vocbulary_Generator():
             self.histograms = self._generate_feature_histograms(
                 descriptors, self.visual_dictionary
             )
-
-# class Storage_Bot():
-#     def __init__(self, path="/tmp"):
-#         self.r = redis.Redis(host='localhost', port=6379)
-#         self.count = 0
-#         self.path = path
-#     def _unique_key(self, pose : tuple[int, int, int]) -> str:
-#         key = f"{pose[0]}:{pose[1]}:{pose[2]}:{self.count}"
-#         self.count += 1
-#         return key
-#     def disk(self, pose, image):
-#         if not os.path.exists(self.path):
-#             os.makedirs(self.path)
-#         filename = self._unique_key(pose)+".jpg"
-#         with open(os.path.join(self.path, filename), "wb") as f:
-#             f.write(image)
-#     def reset(self) -> None:
-#         self.count = 0
-#     def calculate_histograms_from_images(self) -> None:
-
-#     def store_vocab_in_redis(self) -> None:
-#         key = self._unique_key(pose)
-#         try:
-#             is_success, buffer = cv2.imencode(".jpg", image) # !: probably not correct
-#             if is_success:
-#                 self.r.set(key, buffer.tobytes())
-#         except Exception as e:
-#             pass
+    
+    def add_image(self, image, pose):
+        self.images.append(image)
+        self.poses.append(pose)
 
     def _load_images_from_folder(self) -> List[Any]:
         images = []

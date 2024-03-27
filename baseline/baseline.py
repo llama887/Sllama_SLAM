@@ -56,6 +56,7 @@ class KeyboardPlayerPyGame(Player):
         """
         Handle player actions based on keyboard input
         """
+        self.last_act = Action.IDLE
         for event in pygame.event.get():
             #  Quit if user closes window or presses escape
             if event.type == pygame.QUIT:

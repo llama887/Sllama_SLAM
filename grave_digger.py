@@ -4,7 +4,7 @@ import cv2
 import pdb
 
 from deadreckoning import Localizer
-#from image_storage import Storage_Bot
+from image_storage import Vocabulary_Generator
 from place_recognition import (
     create_visual_dictionary,
     extract_sift_features,
@@ -20,7 +20,7 @@ class KeyboardPlayerPyGame(Player):
         self.keymap = None  # Mapping of keyboard keys to actions
         self.localizer = Localizer()  # Dead reckoning localizer
         super(KeyboardPlayerPyGame, self).__init__()
-        #self.storage = Storage_Bot()
+        self.vocabulary = Vocabulary_Generator()
 
         self.key_hold_state = {
             pygame.K_LEFT: False,
@@ -65,16 +65,18 @@ class KeyboardPlayerPyGame(Player):
 
             if event.type == pygame.KEYDOWN:
                 self.key_hold_state[event.key] = True
-                if event.key in self.keymap:
+                if event.key in self.keymap and self.keymap[event.key] != 1:
                     self.last_act |= self.keymap[event.key]
                 else:
                     self.show_target_images()
             if event.type == pygame.KEYUP:
                 self.key_hold_state[event.key] = False
-                if event.key in self.keymap:
+                if event.key in self.keymap and self.keymap[event.key] != 1:
                     self.last_act ^= self.keymap[event.key]
-        self.localizer.track(self.key_hold_state)
-        self.localizer.map.update_minimap(self.localizer.current_x, self.localizer.current_y) 
+        keys = pygame.key.get_pressed()
+        if not keys[pygame.K_LSHIFT]: # holding shift allows moving positions without updating the map (used for error correction)
+            self.localizer.track(self.key_hold_state)
+            self.localizer.map.update_minimap(self.localizer.current_x, self.localizer.current_y)
         return self.last_act
     
     def post_exploration(self) -> None:
