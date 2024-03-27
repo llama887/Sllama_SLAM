@@ -64,41 +64,16 @@ class KeyboardPlayerPyGame(Player):
                 return Action.QUIT
 
             if event.type == pygame.KEYDOWN:
+                self.key_hold_state[event.key] = True
                 if event.key in self.keymap:
-                    # if event.key == pygame.K_p:
-                    #     self.pre_navigation_bypass()
-                    # elif event.key == pygame.K_r:
-                    #     self.player_position = (0, 0)
-                    # elif event.key == pygame.K_t:
-                    #     self.direction = 0
-                    if event.key == pygame.K_LSHIFT:
-                        self.key_hold_state[pygame.K_LSHIFT] = True
-                    else:
-                        # update action
-                        self.key_hold_state[event.key] = True
-                        self.last_act |= self.keymap[event.key]
-                        if self.keymap[event.key] in [Action.LEFT, Action.RIGHT, Action.FORWARD, Action.BACKWARD]:
-                            if not self.key_hold_state[pygame.K_LSHIFT]:
-                                self.localizer.track(self.keymap[event.key])
-                                pygame.event.set_blocked(pygame.KEYDOWN)
-                                pygame.event.set_blocked(pygame.KEYUP)
+                    self.last_act |= self.keymap[event.key]
                 else:
-                    if not self.is_navigation:
-                        self.show_target_images()
+                    self.show_target_images()
             if event.type == pygame.KEYUP:
+                self.key_hold_state[event.key] = False
                 if event.key in self.keymap:
-                    # if (
-                    #     event.key == pygame.K_p
-                    #     or event.key == pygame.K_r
-                    #     or event.key == pygame.K_t
-                    # ):
-                    #     pass
-                    if event.key == pygame.K_LSHIFT:
-                        self.key_hold_state[pygame.K_LSHIFT] = False
-                    else:
-                        self.key_hold_state[event.key] = False
-                        self.last_act ^= self.keymap[event.key]
-        # show the explored area and the current position
+                    self.last_act ^= self.keymap[event.key]
+        self.localizer.track(self.key_hold_state)
         self.localizer.map.update_minimap(self.localizer.current_x, self.localizer.current_y) 
         return self.last_act
     

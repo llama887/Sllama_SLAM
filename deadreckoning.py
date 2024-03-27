@@ -1,5 +1,6 @@
 from vis_nav_game import Player, Action, Phase
 import matplotlib.pyplot as plt
+import pygame
 
 class Map():
     def __init__(self):
@@ -18,7 +19,8 @@ class Map():
         if self.target[0] is not None and self.target[1] is not None:
             plt.scatter(self.target[0], self.target[1], color='green')
         plt.axis('off')
-        plt.show()
+        print(f"Current position: ({current_x}, {current_y})")  
+        plt.show(block=False)
 
 class Localizer():
     def __init__(self):
@@ -26,40 +28,42 @@ class Localizer():
         self.current_y = 0
         self.heading = 0
         self.map = Map()
-    def track(self, action) -> None:
-        if action is Action.FORWARD:
+    def track(self, key_presses) -> None:
+        # print(f"Tracking {action}")
+        # print(f"Current position: ({self.current_x}, {self.current_y})")
+        if key_presses[pygame.K_UP]:
             self._forward()
-        elif action is Action.BACKWARD:
+        if key_presses[pygame.K_DOWN]:
             self._backward()
-        elif action is Action.LEFT:
+        if key_presses[pygame.K_LEFT]:
             self.heading += 90
             if self.heading >= 360:
                 self.heading = self.heading % 360
-        elif action is Action.RIGHT:
+        if key_presses[pygame.K_RIGHT]:
             self.heading -= 90
             if self.heading < 0:
                 self.heading = 360 + self.heading
     def _forward(self, navigation=False) -> None:
         if self.heading == 0:
-            self.current_x += 1
-        elif self.heading == 90:
             self.current_y += 1
+        elif self.heading == 90:
+            self.current_x += 1
         elif self.heading == 180:
-            self.current_x -= 1
-        elif self.heading == 270:
             self.current_y -= 1
+        elif self.heading == 270:
+            self.current_x -= 1
         if not navigation:
             self.map.x.append(self.current_x)
             self.map.y.append(self.current_y)
     def _backward(self, navigation=False) -> None:
-        if self.heading%360 == 0:
-            self.current_x -= 1
-        elif self.heading%360 == 90:
+        if self.heading == 0:
             self.current_y -= 1
-        elif self.heading%360 == 180:
-            self.current_x += 1
-        elif self.heading%360 == 270:
+        elif self.heading == 90:
+            self.current_x -= 1
+        elif self.heading == 180:
             self.current_y += 1
+        elif self.heading == 270:
+            self.current_x += 1
         if not navigation:
             self.map.x.append(self.current_x)
             self.map.y.append(self.current_y)
