@@ -1,4 +1,3 @@
-from vis_nav_game import Player, Action, Phase
 import matplotlib.pyplot as plt
 plt.ion()
 import pygame
@@ -31,30 +30,35 @@ class Localizer():
         self.current_y = 0
         self.heading = 0
         self.map = Map()
+        self._was_holding_right = False
+        self._was_holding_left = False
     def track(self, key_presses) -> None:
-        # print(f"Tracking {action}")
-        # print(f"Current position: ({self.current_x}, {self.current_y})")
+        # turning should be tracked once per key press while forward backwards need to be tracked while the key is held
         if key_presses[pygame.K_UP]:
             self._forward()
         if key_presses[pygame.K_DOWN]:
             self._backward()
-        if key_presses[pygame.K_LEFT]:
-            self.heading += 90
+        if key_presses[pygame.K_LEFT] and not self._was_holding_left:
+            self._was_holding_left = True
+            self.heading += 90 # turning is based off of intervals of 90 degrees which needs to be self verified by the player via visual inspection
             if self.heading >= 360:
                 self.heading = self.heading % 360
-        if key_presses[pygame.K_RIGHT]:
+        if key_presses[pygame.K_RIGHT] and not self._was_holding_right:
+            self._was_holding_right = True
             self.heading -= 90
             if self.heading < 0:
                 self.heading = 360 + self.heading
+        self._was_holding_left = key_presses[pygame.K_LEFT]
+        self._was_holding_right = key_presses[pygame.K_RIGHT]
     def _forward(self, navigation=False) -> None:
         if self.heading == 0:
             self.current_y += 1
         elif self.heading == 90:
-            self.current_x += 1
+            self.current_x -= 1
         elif self.heading == 180:
             self.current_y -= 1
         elif self.heading == 270:
-            self.current_x -= 1
+            self.current_x += 1
         if not navigation:
             self.map.x.append(self.current_x)
             self.map.y.append(self.current_y)
@@ -62,11 +66,11 @@ class Localizer():
         if self.heading == 0:
             self.current_y -= 1
         elif self.heading == 90:
-            self.current_x -= 1
+            self.current_x += 1
         elif self.heading == 180:
             self.current_y += 1
         elif self.heading == 270:
-            self.current_x += 1
+            self.current_x -= 1
         if not navigation:
             self.map.x.append(self.current_x)
             self.map.y.append(self.current_y)

@@ -5,12 +5,6 @@ import pdb
 
 from deadreckoning import Localizer
 from image_storage import Vocabulary_Generator
-from place_recognition import (
-    create_visual_dictionary,
-    extract_sift_features,
-    generate_feature_histograms,
-    process_image_and_find_best_match,
-)
 
 class KeyboardPlayerPyGame(Player):
     def __init__(self):
