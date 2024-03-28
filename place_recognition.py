@@ -1,17 +1,16 @@
-import redis
-import os
 from typing import Any, List
 
 import cv2
 import faiss
 import numpy as np
-import random
+from typing import List, Tuple
 
 class Image_Embedding():
     count = 0
-    def __init__(self, x, y, image):
-        self.x = x
-        self.y = y
+    def __init__(self, pose : Tuple[int, int, int], image):
+        self.x = pose[0]
+        self.y = pose[1]
+        self.heading = pose[2]
         self.image = image
 
 class Target_Locator():
@@ -20,16 +19,16 @@ class Target_Locator():
         self.histograms = []
         self.visual_dictionary = []
     def generate_vocabulary(self):
-        if len(self.images) != 0:
+        if len(self.embeddings) != 0:
             print(
-                f"\nFinding descriptors for {len(self.images)} images, with {len(self.poses)} possible poses"
+                f"\nFinding descriptors for {len(self.embeddings)} images, with {len(self.poses)} possible poses"
             )
-            keypoints, descriptors = self._extract_sift_features(self.images)
+            keypoints, descriptors = self._extract_sift_features([e.image for e in self.embeddings])
             print(f"Creating dictionary for images")
             self.visual_dictionary = self._create_visual_dictionary(
                 np.vstack(descriptors), num_clusters=100
             )
-            print(f"Creating {len(self.images)} histograms")
+            print(f"Creating {len(self.embeddings)} histograms")
             self.histograms = self._generate_feature_histograms(
                 descriptors, self.visual_dictionary
             )
