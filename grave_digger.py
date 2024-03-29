@@ -329,7 +329,6 @@ class KeyboardPlayerPyGame(Player):
         self.localizer.map.target = (target_x, target_y)    
         cv2.destroyAllWindows()
         self.show_target_as_reference()
-        cv2.moveWindow("KeyboardPlayer:target_images", 500, 200)
 
     def pre_exploration(self):
         K = self.get_camera_intrinsic_matrix()
