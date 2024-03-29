@@ -4,6 +4,7 @@ This is forked from the course project platform for NYU ROB-GY 6203 Robot Percep
 For more information about the course project, please reach out to AI4CE lab (cfeng at nyu dot edu).
 
 # Instructions for Players
+Note: Instructions Tested on Unbuntu Linux and WSL: Unbuntu.
 1. Install
 ```commandline
 conda update conda
