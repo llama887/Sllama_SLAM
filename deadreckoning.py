@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 plt.ion()
 import pygame
+from typing import Tuple
 
 class Map():
     def __init__(self):
@@ -74,3 +75,5 @@ class Localizer():
         if not navigation:
             self.map.x.append(self.current_x)
             self.map.y.append(self.current_y)
+    def get_pose(self) -> Tuple[int, int, int]:
+        return (self.current_x, self.current_y, self.heading)

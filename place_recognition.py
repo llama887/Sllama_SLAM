@@ -16,27 +16,28 @@ class Image_Embedding():
 class Target_Locator():
     def __init__(self):
         self.embeddings : List[Image_Embedding]= []
-        self.histograms = []
-        self.visual_dictionary = []
+        self.histograms = None
+        self.visual_dictionary = None
     def generate_vocabulary(self):
+        print(f"Generating vocabulary")
         if len(self.embeddings) != 0:
+            print(f"Extracting features from images")
             print(
-                f"\nFinding descriptors for {len(self.embeddings)} images, with {len(self.poses)} possible poses"
+                f"\nFinding descriptors for {len(self.embeddings)} images, with {len(self.embeddings)} possible poses"
             )
-            keypoints, descriptors = self._extract_sift_features([e.image for e in self.embeddings])
+            keypoints, descriptors = self._extract_sift_features()
             print(f"Creating dictionary for images")
             self.visual_dictionary = self._create_visual_dictionary(
                 np.vstack(descriptors), num_clusters=100
             )
             print(f"Creating {len(self.embeddings)} histograms")
-            self.histograms = self._generate_feature_histograms(
-                descriptors, self.visual_dictionary
-            )
+            self.histograms = self._generate_feature_histograms(descriptors)
     
     def add_image(self, embedding : Image_Embedding):
         self.embeddings.append(embedding)
     
-    def _extract_sift_features(self, images: List):
+    def _extract_sift_features(self):
+        images = [embedding.image for embedding in self.embeddings]
         sift = cv2.SIFT_create()
         keypoints_list = []
         descriptors_list = []
@@ -57,14 +58,14 @@ class Target_Locator():
 
 
     def _generate_feature_histograms(self, 
-        descriptors: np.ndarray, visual_dictionary: Any
+        descriptors: np.ndarray
     ) -> List[Any]:
-        num_clusters = visual_dictionary.k
+        num_clusters = self.visual_dictionary.k
         histograms = []
 
         for desc in descriptors:
             histogram = np.zeros(num_clusters)
-            _, labels = visual_dictionary.index.search(desc.astype(np.float32), 1)
+            _, labels = self.visual_dictionary.index.search(desc.astype(np.float32), 1)
             for label in labels.flatten():
                 histogram[label] += 1
             histograms.append(histogram)
