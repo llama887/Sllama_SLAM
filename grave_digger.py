@@ -92,7 +92,10 @@ class KeyboardPlayerPyGame(Player):
         best_indexes = []
         for target in targets:
             if self.target_locator.visual_dictionary is None:
-                raise ValueError("Visual dictionary is not set")
+                # train dictionary if there is none
+                self.target_locator.generate_vocabulary()
+                if self.target_locator.visual_dictionary is None:
+                    raise ValueError("Visual dictionary is not generated yet")
             best_indexes.append(self.target_locator.find_target_indices(target))
         
         if targets is None or len(targets) <= 0:
