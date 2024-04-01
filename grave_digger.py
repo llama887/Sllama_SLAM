@@ -44,7 +44,7 @@ class KeyboardPlayerPyGame(Player):
             pygame.K_UP: Action.FORWARD,
             pygame.K_DOWN: Action.BACKWARD,
             pygame.K_SPACE: Action.CHECKIN,
-            pygame.K_ESCAPE: Action.QUIT,
+            pygame.K_ESCAPE: Action.QUIT, 
             pygame.K_p: 1,
             pygame.K_r: 1,
             pygame.K_t: 1,
@@ -56,16 +56,17 @@ class KeyboardPlayerPyGame(Player):
         Handle player actions based on keyboard input
         """
         for event in pygame.event.get():
+            #print(event.type)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 self.last_act = Action.QUIT
                 return Action.QUIT
-            if event.type == pygame.K_RETURN:
-                # train vocabulary when done exploring
-                self.last_act = Action.IDLE
-                self.post_exploration()
-                return Action.IDLE
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                # train vocabulary when done exploring
+                    self.last_act = Action.IDLE
+                    self.post_exploration()
+                    return Action.IDLE
                 self.key_hold_state[event.key] = True
                 if event.key in self.keymap and self.keymap[event.key] != 1: # 1 is a placeholder keymapping for custom key mappings
                     self.last_act |= self.keymap[event.key]
