@@ -6,6 +6,7 @@ import numpy as np
 
 from deadreckoning import Localizer
 from place_recognition import Target_Locator, Image_Embedding
+from dijstraka import Dijstraka
 
 class KeyboardPlayerPyGame(Player):
     def __init__(self):
@@ -15,6 +16,7 @@ class KeyboardPlayerPyGame(Player):
         self.keymap = None  # Mapping of keyboard keys to actions
         self.localizer = Localizer()  # Dead reckoning localizer
         self.target_locator = Target_Locator()
+        self.searchtool = Dijstraka()
         self.previous_pose : Tuple[int, int, int]= (None, None, None)
         self.target = []
         super(KeyboardPlayerPyGame, self).__init__()
@@ -341,7 +343,7 @@ class KeyboardPlayerPyGame(Player):
         print("When done exploring, press Enter to start training the visual dictionary.")
 
     def pre_navigation(self) -> None:
-        pass
+        self.localizer.map.mapped_x, self.localizer.map.mapped_y = self.searchtool.search(self.localizer.map.target, self.localizer.map)
 
     def see(self, fpv):
         if fpv is None or len(fpv.shape) < 3:

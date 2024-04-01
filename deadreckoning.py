@@ -10,6 +10,8 @@ class Map():
         self.MAP_DELAY = 20
         self.delay_counter = 0
         self.target = (None, None)
+        self.mapped_x = None
+        self.mapped_y = None
     def update_minimap(self, current_x : int, current_y : int) -> None:
         if self.delay_counter < self.MAP_DELAY:
             self.delay_counter += 1
@@ -17,13 +19,19 @@ class Map():
         plt.clf()
         self.delay_counter = 0
         plt.scatter(self.x, self.y, color='black')
-        plt.scatter(current_x, current_y, color='blue')
         if self.target[0] is not None and self.target[1] is not None:
             plt.scatter(self.target[0], self.target[1], color='green')
+        if self.mapped_x != None and self.mapped_y != None:
+            plt.scatter(self.mapped_x, self.mapped_y, color='red', marker="P")
+        plt.scatter(current_x, current_y, color='blue')
         plt.axis('off')
         # print(f"Current position: ({current_x}, {current_y})")  
         plt.draw()
         plt.pause(0.01)
+
+        
+            
+
 
 class Localizer():
     def __init__(self):
