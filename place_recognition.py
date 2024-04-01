@@ -32,6 +32,7 @@ class Target_Locator():
             )
             print(f"Creating {len(self.embeddings)} histograms")
             self.histograms = self._generate_feature_histograms(descriptors)
+            print(f"Done!")
     
     def add_image(self, embedding : Image_Embedding):
         self.embeddings.append(embedding)

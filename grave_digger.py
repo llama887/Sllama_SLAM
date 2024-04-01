@@ -62,16 +62,16 @@ class KeyboardPlayerPyGame(Player):
                 self.last_act = Action.QUIT
                 return Action.QUIT
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                # train vocabulary when done exploring
-                    self.last_act = Action.IDLE
-                    self.post_exploration()
-                    return Action.IDLE
                 self.key_hold_state[event.key] = True
                 if event.key in self.keymap and self.keymap[event.key] != 1: # 1 is a placeholder keymapping for custom key mappings
                     self.last_act |= self.keymap[event.key]
                 elif event.key not in self.keymap:
-                    self.show_target_images()
+                    if event.key == pygame.K_RETURN:
+                # train vocabulary when done exploring
+                        self.last_act = Action.IDLE
+                        self.post_exploration()
+                    elif event.key == pygame.K_q:
+                        self.show_target_images()
             if event.type == pygame.KEYUP:
                 self.key_hold_state[event.key] = False
                 if event.key in self.keymap and self.keymap[event.key] != 1:
@@ -85,6 +85,7 @@ class KeyboardPlayerPyGame(Player):
         self.is_navigation = True
         self.target_locator.generate_vocabulary()
     def show_target_images(self):
+        print(f"Showing target images...")
         self.localizer.current_x = 0
         self.localizer.current_y = 0
         self.localizer.heading = 0
