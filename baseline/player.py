@@ -2,7 +2,6 @@ from vis_nav_game import Player, Action
 import pygame
 import cv2
 
-
 class KeyboardPlayerPyGame(Player):
     def __init__(self):
         self.fpv = None
