@@ -1,21 +1,16 @@
 name: game
 channels:
-  - pytorch
   - conda-forge
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
-  - blas=1.0=openblas
   - bullet-cpp=3.24=h769672d_0
   - bzip2=1.0.8=hd590300_5
-  - ca-certificates=2024.3.11=h06a4308_0
-  - faiss-cpu=1.8.0=py3.10_h9d89a2e_0_cpu
-  - intel-openmp=2023.1.0=hdb19cb5_46306
+  - ca-certificates=2024.2.2=hbcca054_0
   - ld_impl_linux-64=2.40=h41732ed_0
   - libblas=3.9.0=21_linux64_openblas
   - libcblas=3.9.0=21_linux64_openblas
-  - libfaiss=1.8.0=hf65b397_0_cpu
   - libffi=3.4.2=h7f98852_5
   - libgcc-ng=13.2.0=h807b86a_5
   - libgfortran-ng=13.2.0=h69a702a_5
@@ -29,9 +24,7 @@ dependencies:
   - libuuid=2.38.1=h0b41bf4_0
   - libxcb=1.15=h0b41bf4_0
   - libzlib=1.2.13=hd590300_5
-  - mkl=2023.1.0=h213fc3f_46344
   - ncurses=6.4.20240210=h59595ed_0
-  - numpy-base=1.26.4=py310h8a23956_0
   - openssl=3.2.1=hd590300_1
   - pip=23.2.1=pyhd8ed1ab_0
   - pthread-stubs=0.4=h36c2ea0_1001
@@ -40,7 +33,6 @@ dependencies:
   - python_abi=3.10=4_cp310
   - readline=8.2=h8228510_1
   - setuptools=69.2.0=pyhd8ed1ab_0
-  - tbb=2021.8.0=hdb19cb5_0
   - tk=8.6.13=noxft_h4845f30_101
   - tzdata=2024a=h0c530f3_0
   - wheel=0.43.0=pyhd8ed1ab_0
@@ -52,36 +44,32 @@ dependencies:
   - xorg-xextproto=7.3.0=h0b41bf4_1003
   - xorg-xproto=7.0.31=h7f98852_1007
   - xz=5.2.6=h166bdaf_0
-  - zlib=1.2.13=hd590300_5
   - pip:
-      - async-timeout==4.0.3
       - beautifulsoup4==4.12.3
       - certifi==2024.2.2
-      - cffi==1.16.0
-      - charset-normalizer==3.3.2
       - contourpy==1.2.0
       - cryptography==41.0.3
       - cycler==0.12.1
       - cython==3.0.9
-      - eigen==0.0.1
-      - filelock==3.13.1
+      - faiss-gpu==1.7.2
       - fonttools==4.50.0
       - gdown==4.7.3
       - idna==3.6
       - joblib==1.3.2
       - kiwisolver==1.4.5
       - matplotlib==3.8.3
+      - ntplib==0.4.0
       - numpy==1.25.2
       - opencv-python==4.8.0.76
       - packaging==24.0
       - pillow==10.2.0
-      - pycparser==2.21
+      - pybind11==2.11.1
       - pygame==2.5.2
+      - pyopengl==3.1.7
+      - pyopengl-accelerate==3.1.7
+      - pypangolin==0.9.1
       - pyparsing==3.1.2
       - pysocks==1.7.1
-      - python-dateutil==3.9.0
-      - redis==5.0.3
-      - requests==2.31.0
       - scikit-learn==1.3.2
       - scipy==1.12.0
       - six==1.16.0
@@ -89,5 +77,5 @@ dependencies:
       - threadpoolctl==3.4.0
       - tqdm==4.66.2
       - urllib3==2.2.1
-      - vis-nav-game==1.1.2
-prefix: /home/fyiu/miniconda3/envs/game
+      - vis-nav-game==1.2.1
+prefix: /home/franklin/miniconda3/envs/game
