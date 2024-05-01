@@ -60,6 +60,10 @@ class Target_Locator():
         if not os.path.isdir(save_dir_full):
             self.embeddings = None
             return
+        if len(os.listdir(save_dir_full)) == 0:
+            print("No images to load...")
+            self.embeddings = None
+            return
         for filename in os.listdir(save_dir_full):
             save_str = save_dir_full + filename
             em_img = cv2.imread(save_str)

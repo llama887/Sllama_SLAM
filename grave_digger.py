@@ -106,6 +106,7 @@ class KeyboardPlayerPyGame(Player):
     def post_exploration(self) -> None:
         self.is_navigation = True
         self.target_locator.generate_vocabulary()
+
     def show_target_images(self):
         print(f"Showing target images...")
         self.localizer.current_x = 0
@@ -345,7 +346,8 @@ class KeyboardPlayerPyGame(Player):
         """
         Set target images
         """
-        self.post_exploration()
+        if self.target_locator.visual_dictionary is None:
+            self.post_exploration()
         super(KeyboardPlayerPyGame, self).set_target_images(images)
         self.target = np.ravel(self.show_target_images())
         if self.target is None or len(self.target) <= 1:
