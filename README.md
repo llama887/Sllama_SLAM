@@ -19,3 +19,7 @@ sudo apt install libopenblas-base libomp-dev
 ```commandline
 python grave_digger.py
 ```
+
+Move using arrow keys. LSHIFT allows moving the robot without updating the map and is used for making minor positional adjustments without messing up the map.
+
+When you are done with exploration, press ENTER to generate a vocabulary. Once vocabulary is generated, press ESC to move into navigation phase. Launching navigation will open a large image displaying the target view and the top 12 views that the robot thinks matches the target. Click on the window and press ENTER to proceed. Then enter the index-1 (0-11) of the image that correlates to the target view in the terminal. This will pop up a new window with only the target view to use as reference. Click on that window and hit ENTER to proceed. Reclicking on the game window will allow you to navigate to the target following the plotted trajectory. 
