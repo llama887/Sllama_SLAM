@@ -14,6 +14,7 @@ data/
 target.jpg
 vis_nav_player.log
 *.pickle
+index_targets.jpg
 
 
 

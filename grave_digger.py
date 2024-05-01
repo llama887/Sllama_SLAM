@@ -289,8 +289,12 @@ class KeyboardPlayerPyGame(Player):
         # Concatenate the images again for the final display
         top_row = cv2.hconcat([concat_img, concat_img_second_best])
         bottom_row = cv2.hconcat([concat_img_third_best, concat_img_target])
+        full_image = cv2.vconcat([top_row, bottom_row])
 
-        # Create and resize window for display
+        # Save our images in case rendering breaks
+        cv2.imwrite("index_targets.jpg", full_image)
+
+        # Create and resize window for displa
         cv2.namedWindow(
             "KeyboardPlayer:targets and recognized", cv2.WINDOW_NORMAL
         )  # Create a resizable window
@@ -300,9 +304,9 @@ class KeyboardPlayerPyGame(Player):
 
         # Display the image
         cv2.imshow(
-            "KeyboardPlayer:targets and recognized", cv2.vconcat([top_row, bottom_row])
+            "KeyboardPlayer:targets and recognized", full_image
         )
-        cv2.waitKey(1)
+        cv2.waitKey(0)
         return best_indexes
     
     def show_target_as_reference(self):
@@ -340,7 +344,7 @@ class KeyboardPlayerPyGame(Player):
         cv2.putText(concat_img, 'Left View', (int(h/2) + h_offset, int(w/2) + w_offset), font, size, color, stroke, line)
 
         cv2.imshow(f'KeyboardPlayer:target_images', concat_img)
-        cv2.waitKey(1)
+        cv2.waitKey(0)
     
     def set_target_images(self, images):
         """
