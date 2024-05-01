@@ -12,7 +12,7 @@ class Map():
         self.mapped_x = None
         self.mapped_y = None
         self.delay_counter = 0
-        self.MAP_DELAY = 10
+        self.MAP_DELAY = 5
         self.store_counter = 0
         self.STORE_DELAY = 50
     def update_minimap(self, current_x : int, current_y : int, heading) -> None:
