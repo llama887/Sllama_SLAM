@@ -22,6 +22,9 @@ class Target_Locator():
         self.save_dir = "/data/images/"
     def generate_vocabulary(self):
         print(f"Generating vocabulary")
+        if self.embeddings == None:
+            print(f"We're in test mode...")
+            return
         if len(self.embeddings) != 0:
             print(f"Extracting features from images")
             print(
@@ -39,7 +42,6 @@ class Target_Locator():
             print(f"Creating embeddings from files")
             self._create_embeddings_from_files()
             print(f"Done generating embeddings")
-            print(len(self.embeddings))
             self.generate_vocabulary()
 
     
@@ -56,7 +58,8 @@ class Target_Locator():
     def _create_embeddings_from_files(self):
         save_dir_full = os.pardir + self.save_dir
         if not os.path.isdir(save_dir_full):
-            return 
+            self.embeddings = None
+            return
         for filename in os.listdir(save_dir_full):
             save_str = save_dir_full + filename
             em_img = cv2.imread(save_str)

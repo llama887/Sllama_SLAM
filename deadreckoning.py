@@ -51,6 +51,7 @@ class Map():
         with open('y.pickle', 'wb') as f:
             pickle.dump(self.y, f)
     def load_poses(self):
+        print("Loading Map...")
         with open('x.pickle', 'rb') as f:
             self.x = pickle.load(f)
         with open('y.pickle', 'rb') as f:

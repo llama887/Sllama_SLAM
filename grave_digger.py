@@ -356,6 +356,7 @@ class KeyboardPlayerPyGame(Player):
         self.localizer.map.target = (target_x, target_y)    
         cv2.destroyAllWindows()
         self.show_target_as_reference()
+        self.is_navigation = True
 
     def pre_exploration(self):
         K = self.get_camera_intrinsic_matrix()
@@ -363,6 +364,8 @@ class KeyboardPlayerPyGame(Player):
         print("When done exploring, press Enter to start training the visual dictionary.")
 
     def pre_navigation(self) -> None:
+        if self.localizer.map.x is None or len(self.localizer.map.x) < 5:
+            self.localizer.map.load_poses()
         self.localizer.map.mapped_x, self.localizer.map.mapped_y = self.searchtool.search(self.localizer.map.target, self.localizer.map)
 
     def see(self, fpv):
