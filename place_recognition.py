@@ -4,6 +4,7 @@ import cv2
 import faiss
 import numpy as np
 from typing import List, Tuple
+import os
 
 class Image_Embedding():
     count = 0
@@ -18,6 +19,7 @@ class Target_Locator():
         self.embeddings : List[Image_Embedding]= []
         self.histograms = None
         self.visual_dictionary = None
+        self.save_dir = "/data/images/"
     def generate_vocabulary(self):
         print(f"Generating vocabulary")
         if len(self.embeddings) != 0:
@@ -33,9 +35,36 @@ class Target_Locator():
             print(f"Creating {len(self.embeddings)} histograms")
             self.histograms = self._generate_feature_histograms(descriptors)
             print(f"Done!")
+        else:
+            print(f"Creating embeddings from files")
+            self._create_embeddings_from_files()
+            print(f"Done generating embeddings")
+            print(len(self.embeddings))
+            self.generate_vocabulary()
+
     
     def add_image(self, embedding : Image_Embedding):
         self.embeddings.append(embedding)
+        posex, posey, poser = embedding.x, embedding.y, embedding.heading
+        save_str = str(posex) + "_" + str(posey) + "_" + str(poser) + "_.jpg"
+        save_dir_full = os.pardir + self.save_dir
+        save_path = save_dir_full + save_str
+        if not os.path.isdir(save_dir_full):
+            os.makedirs(save_dir_full)
+        cv2.imwrite(save_path, embedding.image)
+
+    def _create_embeddings_from_files(self):
+        save_dir_full = os.pardir + self.save_dir
+        if not os.path.isdir(save_dir_full):
+            return 
+        for filename in os.listdir(save_dir_full):
+            save_str = save_dir_full + filename
+            em_img = cv2.imread(save_str)
+            pose = filename.split("_")
+            posex, posey, posez = pose[0], pose[1], pose[2]
+            em_pose = (posex, posey, posez)
+            self.embeddings.append(Image_Embedding(em_pose, em_img))
+
     
     def _extract_sift_features(self):
         images = [embedding.image for embedding in self.embeddings]

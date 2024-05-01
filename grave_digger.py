@@ -40,6 +40,8 @@ class KeyboardPlayerPyGame(Player):
 
         # Reset location
         self.localizer = Localizer()
+        self.target_locator = Target_Locator()
+        self.searchtool = Dijstraka()
         pygame.init()
 
         self.keymap = {

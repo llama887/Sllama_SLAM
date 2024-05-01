@@ -13,7 +13,7 @@ class Dijstraka():
 
     def search(self, pos_tuple, localizer_map):
         #breakpoint()
-        print(f"Searching...")
+        print(f"Searching for..." + str(pos_tuple))
         curr_pos_x = 0
         curr_pos_y = 0
         curr_pos = (curr_pos_x, curr_pos_y)
