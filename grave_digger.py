@@ -20,6 +20,8 @@ class KeyboardPlayerPyGame(Player):
         self.previous_pose : Tuple[int, int, int]= (None, None, None)
         self.target = []
         super(KeyboardPlayerPyGame, self).__init__()
+        self.turn_ticks = 32
+        self.turn_direction = None
 
         self.key_hold_state = {
             pygame.K_LEFT: False,
@@ -57,6 +59,17 @@ class KeyboardPlayerPyGame(Player):
         """
         Handle player actions based on keyboard input
         """
+        # if self.turn_ticks != 32:
+        #     print(self.turn_direction, self.turn_ticks)
+        #     if self.turn_ticks <= 0:
+        #         self.turn_ticks = 32
+        #         self.last_act ^= self.turn_direction
+        #         self.turn_direction = None
+        #         self.key_hold_state[pygame.K_LEFT if self.turn_direction == Action.LEFT else pygame.K_RIGHT] = False
+        #     else:
+        #         self.turn_ticks -= 1
+        #         self.last_act = self.turn_direction
+        #     return self.last_act
         for event in pygame.event.get():
             #print(event.type)
             if event.type == pygame.QUIT:
@@ -65,6 +78,11 @@ class KeyboardPlayerPyGame(Player):
                 return Action.QUIT
             if event.type == pygame.KEYDOWN:
                 self.key_hold_state[event.key] = True
+                # if (self.key_hold_state[pygame.K_LEFT] or self.key_hold_state[pygame.K_RIGHT]) and not self.key_hold_state[pygame.K_LSHIFT]:
+                #     self.turn_direction = Action.RIGHT if self.key_hold_state[pygame.K_RIGHT] else Action.LEFT
+                #     self.turn_ticks -= 1
+                # else:
+                #     self.turn_ticks = 32 
                 if event.key in self.keymap and self.keymap[event.key] != 1: # 1 is a placeholder keymapping for custom key mappings
                     self.last_act |= self.keymap[event.key]
                 elif event.key not in self.keymap:
@@ -78,9 +96,9 @@ class KeyboardPlayerPyGame(Player):
                 self.key_hold_state[event.key] = False
                 if event.key in self.keymap and self.keymap[event.key] != 1:
                     self.last_act ^= self.keymap[event.key]
-        if not self.key_hold_state[pygame.K_LSHIFT]: # BUG: LSHIFT causes mapping to set player to 0, 0
+        if not self.key_hold_state[pygame.K_LSHIFT]:
             self.localizer.track(self.key_hold_state)
-            self.localizer.map.update_minimap(self.localizer.current_x, self.localizer.current_y)
+            self.localizer.map.update_minimap(self.localizer.current_x, self.localizer.current_y, self.localizer.heading)
         return self.last_act
     
     def post_exploration(self) -> None:
